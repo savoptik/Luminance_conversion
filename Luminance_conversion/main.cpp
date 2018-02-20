@@ -20,7 +20,7 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg");
     imshow("test", img);
-    waitKey();
+    waitKey(50);
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
