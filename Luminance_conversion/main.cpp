@@ -19,7 +19,6 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg");
-    namedWindow("test");
     imshow("test", img);
     waitKey();
     for (int i = 0; i < img.rows; i++) {
