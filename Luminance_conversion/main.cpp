@@ -13,23 +13,24 @@
 #include <opencv2/imgcodecs.hpp>
 #include <vector>
 #include <iterator>
-#include <math.h>
+#include <cmath>
 using namespace cv;
 using namespace std;
 
 int main(int argc, const char * argv[]) {
     auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg");
     imshow("test", img);
-    waitKey(50);
+    waitKey();
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
-            img.at<Vec3b>(i, j)[0] = buf[0]==0 ? 0: static_cast<uchar>(log(buf[0]));
-            img.at<Vec3b>(i, j)[1] = buf[1]==0 ? 0: static_cast<uchar>(log(buf[1]));
-            img.at<Vec3b>(i, j)[2] = buf[2]==0 ? 0: static_cast<uchar>(log(buf[2]));
+            img.at<Vec3b>(i, j)[0] = buf[0]<1 ? 100: static_cast<uchar>(log(static_cast<double>(buf[0])));
+            img.at<Vec3b>(i, j)[1] = buf[1]<1 ? 100: static_cast<uchar>(log(static_cast<double>(buf[1])));
+            img.at<Vec3b>(i, j)[2] = buf[2]<1 ? 100: static_cast<uchar>(log(static_cast<double>(buf[2])));
         }
     }
     imshow("result", img);
     waitKey();
+    destroyAllWindows();
     return 0;
 }
