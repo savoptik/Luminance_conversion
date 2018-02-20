@@ -24,9 +24,9 @@ int main(int argc, const char * argv[]) {
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
-            img.at<Vec3b>(i, j)[0] = buf[0]<1 ? 100: static_cast<uchar>(log(static_cast<double>(buf[0])));
-            img.at<Vec3b>(i, j)[1] = buf[1]<1 ? 100: static_cast<uchar>(log(static_cast<double>(buf[1])));
-            img.at<Vec3b>(i, j)[2] = buf[2]<1 ? 100: static_cast<uchar>(log(static_cast<double>(buf[2])));
+            img.at<Vec3b>(i, j)[0] = buf[0]<1 ? 0: static_cast<uchar>(log(2)/log(static_cast<double>(buf[0])));
+            img.at<Vec3b>(i, j)[1] = buf[1]<1 ? 0: static_cast<uchar>(log(2)/log(static_cast<double>(buf[1])));
+            img.at<Vec3b>(i, j)[2] = buf[2]<1 ? 0: static_cast<uchar>(log(2)/log(static_cast<double>(buf[2])));
         }
     }
     imshow("result", img);
