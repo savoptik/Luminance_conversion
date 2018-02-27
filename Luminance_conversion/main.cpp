@@ -57,5 +57,6 @@ int main(int argc, const char * argv[]) {
     imshow("result", img);
     waitKey();
     destroyAllWindows();
+    imwrite("/Users/artemsemenov/Desktop/result.jpg", img);
     return 0;
 }
