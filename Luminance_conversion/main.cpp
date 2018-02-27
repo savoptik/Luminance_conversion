@@ -21,29 +21,31 @@ int main(int argc, const char * argv[]) {
     auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg");
     imshow("test", img);
     waitKey();
+    int r = 0; // максимум красных.
+    int g = 0; // максимум зелёных.
+    int b = 0; // максимум синих.
+    int max = 0; // максимум.
+    // Поиск максимумов в каналах.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
-            auto buf = img.at<Vec3b>(i, j);
-            int m = (buf[0] + buf[1] + buf[2])/3;
-            img.at<Vec3b>(i, j)[0] = m;
-            img.at<Vec3b>(i, j)[1] = m;
-            img.at<Vec3b>(i, j)[2] = m;
+            b = img.at<Vec3b>(i, j)[0] > b ? img.at<Vec3b>(i, j)[0]: b;
+            g = img.at<Vec3b>(i, j)[1] > g ? img.at<Vec3b>(i, j)[1]: g;
+            r = img.at<Vec3b>(i, j)[2] > r ? img.at<Vec3b>(i, j)[2]: r;
         }
     }
-    imshow("result 1", img);
-    waitKey();
-    int max = 0;
+    int midMax = (r + g + b)/3; // среднее максимумов.
+    // Преобразование.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
-            auto buf = img.at<Vec3b>(i, j);
-            img.at<Vec3b>(i, j)[0] = static_cast<uchar>(log(static_cast<double>(buf[0]))/log(2));
+            img.at<Vec3b>(i, j)[0] = img.at<Vec3b>(i, j)[0]/b * midMax;
             max = img.at<Vec3b>(i, j)[0] > max ? img.at<Vec3b>(i, j)[0]: max;
-            img.at<Vec3b>(i, j)[1] = static_cast<uchar>(log(static_cast<double>(buf[1]))/log(2));
+            img.at<Vec3b>(i, j)[1] = img.at<Vec3b>(i, j)[1]/g * midMax;
             max = img.at<Vec3b>(i, j)[1] > max ? img.at<Vec3b>(i, j)[1]: max;
-            img.at<Vec3b>(i, j)[2] = static_cast<uchar>(log(static_cast<double>(buf[2]))/log(2));
+            img.at<Vec3b>(i, j)[2] = img.at<Vec3b>(i, j)[2]/r * midMax;
             max = img.at<Vec3b>(i, j)[2] > max ? img.at<Vec3b>(i, j)[2]: max;
         }
     }
+    // масштабирование.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
@@ -52,7 +54,7 @@ int main(int argc, const char * argv[]) {
             img.at<Vec3b>(i, j)[2] = buf[2]/max * 255;
         }
     }
-    imshow("result 2", img);
+    imshow("result", img);
     waitKey();
     destroyAllWindows();
     return 0;
