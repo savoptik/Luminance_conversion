@@ -24,12 +24,35 @@ int main(int argc, const char * argv[]) {
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
-            img.at<Vec3b>(i, j)[0] = static_cast<uchar>(log(2)/log(static_cast<double>(buf[0])));
-            img.at<Vec3b>(i, j)[1] = static_cast<uchar>(log(2)/log(static_cast<double>(buf[1])));
-            img.at<Vec3b>(i, j)[2] = static_cast<uchar>(log(2)/log(static_cast<double>(buf[2])));
+            int m = (buf[0] + buf[1] + buf[2])/3;
+            img.at<Vec3b>(i, j)[0] = m;
+            img.at<Vec3b>(i, j)[1] = m;
+            img.at<Vec3b>(i, j)[2] = m;
         }
     }
-    imshow("result", img);
+    imshow("result 1", img);
+    waitKey();
+    int max = 0;
+    for (int i = 0; i < img.rows; i++) {
+        for (int j = 0; j < img.cols; j++) {
+            auto buf = img.at<Vec3b>(i, j);
+            img.at<Vec3b>(i, j)[0] = static_cast<uchar>(log(static_cast<double>(buf[0]))/log(2));
+            max = img.at<Vec3b>(i, j)[0] > max ? img.at<Vec3b>(i, j)[0]: max;
+            img.at<Vec3b>(i, j)[1] = static_cast<uchar>(log(static_cast<double>(buf[1]))/log(2));
+            max = img.at<Vec3b>(i, j)[1] > max ? img.at<Vec3b>(i, j)[1]: max;
+            img.at<Vec3b>(i, j)[2] = static_cast<uchar>(log(static_cast<double>(buf[2]))/log(2));
+            max = img.at<Vec3b>(i, j)[2] > max ? img.at<Vec3b>(i, j)[2]: max;
+        }
+    }
+    for (int i = 0; i < img.rows; i++) {
+        for (int j = 0; j < img.cols; j++) {
+            auto buf = img.at<Vec3b>(i, j);
+            img.at<Vec3b>(i, j)[0] = buf[0]/max * 255;
+            img.at<Vec3b>(i, j)[1] = buf[1]/max * 255;
+            img.at<Vec3b>(i, j)[2] = buf[2]/max * 255;
+        }
+    }
+    imshow("result 2", img);
     waitKey();
     destroyAllWindows();
     return 0;
