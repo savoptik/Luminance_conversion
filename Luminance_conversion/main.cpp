@@ -31,28 +31,27 @@ int main(int argc, const char * argv[]) {
             r = img.at<Vec3b>(i, j)[2] > r ? img.at<Vec3b>(i, j)[2]: r;
         }
     }
+    int midMax = (r + g + b)/3;
     // Преобразование.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
-            auto buf = img.at<Vec3b>(i, j);
-            int mid = (buf[0] + buf[1] + buf[2])/3;
-            img.at<Vec3b>(i, j)[0] = img.at<Vec3b>(i, j)[0] * b / mid;
+            img.at<Vec3b>(i, j)[0] = img.at<Vec3b>(i, j)[0] * midMax / b;
             max = img.at<Vec3b>(i, j)[0] > max ? img.at<Vec3b>(i, j)[0]: max;
-            img.at<Vec3b>(i, j)[1] = img.at<Vec3b>(i, j)[1] * g / mid;
+            img.at<Vec3b>(i, j)[1] = img.at<Vec3b>(i, j)[1] * midMax / g;
             max = img.at<Vec3b>(i, j)[1] > max ? img.at<Vec3b>(i, j)[1]: max;
-            img.at<Vec3b>(i, j)[2] = img.at<Vec3b>(i, j)[2] * r / mid;
+            img.at<Vec3b>(i, j)[2] = img.at<Vec3b>(i, j)[2] * midMax / r;
             max = img.at<Vec3b>(i, j)[2] > max ? img.at<Vec3b>(i, j)[2]: max;
         }
     }
     // масштабирование.
-    for (int i = 0; i < img.rows; i++) {
+/*    for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
             img.at<Vec3b>(i, j)[0] = buf[0]/max * 255;
             img.at<Vec3b>(i, j)[1] = buf[1]/max * 255;
             img.at<Vec3b>(i, j)[2] = buf[2]/max * 255;
         }
-    }
+    } */
     imshow("result", img);
     waitKey();
     destroyAllWindows();
