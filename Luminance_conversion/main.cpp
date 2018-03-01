@@ -11,15 +11,14 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
-#include <iterator>
 #include <cmath>
 using namespace cv;
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg");
-    imshow("test", img);
-    waitKey();
+    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg"); // загрузка изображения.
+    imshow("test", img); // вывод загруженного изображения для контроля.
+    waitKey(); // ожидание нажатия клавиши.
     int r = 0; // максимум красных.
     int g = 0; // максимум зелёных.
     int b = 0; // максимум синих.
@@ -53,10 +52,10 @@ int main(int argc, const char * argv[]) {
             img.at<Vec3b>(i, j)[2] = buf[2]/max * 255;
         }
     }
-    imshow("result", img);
-    waitKey();
-    destroyAllWindows();
-    imwrite("/Users/artemsemenov/Desktop/result.jpg", img);
-    img.deallocate();
+    imshow("result", img); // вывод преобразованного изображения.
+    waitKey(); // ожидание нажатия клавиши.
+    destroyAllWindows(); // уничтожение всех окон.
+    imwrite("/Users/artemsemenov/Desktop/result.jpg", img); // запись на диск.
+    img.deallocate(); // освобождение памяти.
     return 0;
 }
