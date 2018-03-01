@@ -11,8 +11,6 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
-#include <vector>
-#include <iterator>
 #include <cmath>
 using namespace cv;
 using namespace std;
@@ -33,15 +31,16 @@ int main(int argc, const char * argv[]) {
             r = img.at<Vec3b>(i, j)[2] > r ? img.at<Vec3b>(i, j)[2]: r;
         }
     }
-    int midMax = (r + g + b)/3; // среднее максимумов.
     // Преобразование.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
-            img.at<Vec3b>(i, j)[0] = img.at<Vec3b>(i, j)[0]/b * midMax;
+            auto buf = img.at<Vec3b>(i, j);
+            int mid = (buf[0] + buf[1] + buf[2])/3;
+            img.at<Vec3b>(i, j)[0] = img.at<Vec3b>(i, j)[0] * b / mid;
             max = img.at<Vec3b>(i, j)[0] > max ? img.at<Vec3b>(i, j)[0]: max;
-            img.at<Vec3b>(i, j)[1] = img.at<Vec3b>(i, j)[1]/g * midMax;
+            img.at<Vec3b>(i, j)[1] = img.at<Vec3b>(i, j)[1] * g / mid;
             max = img.at<Vec3b>(i, j)[1] > max ? img.at<Vec3b>(i, j)[1]: max;
-            img.at<Vec3b>(i, j)[2] = img.at<Vec3b>(i, j)[2]/r * midMax;
+            img.at<Vec3b>(i, j)[2] = img.at<Vec3b>(i, j)[2] * r / mid;
             max = img.at<Vec3b>(i, j)[2] > max ? img.at<Vec3b>(i, j)[2]: max;
         }
     }
@@ -57,7 +56,7 @@ int main(int argc, const char * argv[]) {
     imshow("result", img);
     waitKey();
     destroyAllWindows();
-    imwrite("/Users/artemsemenov/Desktop/result.jpg", img);
+    imwrite("/Users/artemsemenov/Desktop/result.png", img);
     img.deallocate();
     return 0;
 }
