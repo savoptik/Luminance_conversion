@@ -16,9 +16,9 @@ using namespace cv;
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg");
-    imshow("test", img);
-    waitKey();
+    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg"); // загрузка изображения.
+    imshow("test", img); // отображение загруженного изображения для контроля.
+    waitKey(); // ожидание нажатия клавиши.
     int r = 0; // максимум красных.
     int g = 0; // максимум зелёных.
     int b = 0; // максимум синих.
@@ -31,12 +31,12 @@ int main(int argc, const char * argv[]) {
             r = img.at<Vec3b>(i, j)[2] > r ? img.at<Vec3b>(i, j)[2]: r;
         }
     }
-    int midMax = (r + g + b)/3;
+    int midMax = (r + g + b)/3; // среднее максимумов.
     // Преобразование.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
-            img.at<Vec3b>(i, j)[0] = img.at<Vec3b>(i, j)[0] * midMax / b;
-            max = img.at<Vec3b>(i, j)[0] > max ? img.at<Vec3b>(i, j)[0]: max;
+            img.at<Vec3b>(i, j)[0] = img.at<Vec3b>(i, j)[0] * midMax / b; // преобразование канала.
+            max = img.at<Vec3b>(i, j)[0] > max ? img.at<Vec3b>(i, j)[0]: max; // поиск максимума.
             img.at<Vec3b>(i, j)[1] = img.at<Vec3b>(i, j)[1] * midMax / g;
             max = img.at<Vec3b>(i, j)[1] > max ? img.at<Vec3b>(i, j)[1]: max;
             img.at<Vec3b>(i, j)[2] = img.at<Vec3b>(i, j)[2] * midMax / r;
@@ -52,10 +52,10 @@ int main(int argc, const char * argv[]) {
             img.at<Vec3b>(i, j)[2] = buf[2]/max * 255;
         }
     } */
-    imshow("result", img);
-    waitKey();
-    destroyAllWindows();
-    imwrite("/Users/artemsemenov/Desktop/result.png", img);
-    img.deallocate();
+    imshow("result", img); // вывод результата.
+    waitKey(); // ожидание нажатия клавиши.
+    destroyAllWindows(); // уничтожение всех окон.
+    imwrite("/Users/artemsemenov/Desktop/result.png", img); // запись результата на диск.
+    img.deallocate(); // освобождение памяти.
     return 0;
 }
