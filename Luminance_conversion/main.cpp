@@ -58,5 +58,6 @@ int main(int argc, const char * argv[]) {
     waitKey();
     destroyAllWindows();
     imwrite("/Users/artemsemenov/Desktop/result.jpg", img);
+    img.deallocate();
     return 0;
 }
