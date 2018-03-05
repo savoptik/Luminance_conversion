@@ -16,7 +16,7 @@ using namespace cv;
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg"); // загрузка изображения.
+    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/апельсин.png"); // загрузка изображения.
     imshow("test", img); // отображение загруженного изображения для контроля.
     waitKey(); // ожидание нажатия клавиши.
     int r = 0; // максимум красных.
@@ -44,14 +44,14 @@ int main(int argc, const char * argv[]) {
         }
     }
     // масштабирование.
-/*    for (int i = 0; i < img.rows; i++) {
+    for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
-            img.at<Vec3b>(i, j)[0] = buf[0]/max * 255;
-            img.at<Vec3b>(i, j)[1] = buf[1]/max * 255;
-            img.at<Vec3b>(i, j)[2] = buf[2]/max * 255;
+            img.at<Vec3b>(i, j)[0] = buf[0] * 255 / max;
+            img.at<Vec3b>(i, j)[1] = buf[1] * 255 / max;
+            img.at<Vec3b>(i, j)[2] = buf[2] * 255 / max;
         }
-    } */
+    }
     imshow("result", img); // вывод результата.
     waitKey(); // ожидание нажатия клавиши.
     destroyAllWindows(); // уничтожение всех окон.
