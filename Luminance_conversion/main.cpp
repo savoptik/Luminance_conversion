@@ -12,6 +12,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <cmath>
+#include <vector>
 using namespace cv;
 using namespace std;
 
@@ -19,30 +20,26 @@ int main(int argc, const char * argv[]) {
     auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg"); // загрузка изображения.
     imshow("test", img); // вывод загруженного изображения для контроля.
     waitKey(); // ожидание нажатия клавиши.
-    int r = 0; // максимум красных.
-    int g = 0; // максимум зелёных.
-    int b = 0; // максимум синих.
-    int max = 0; // максимум.
-    // Поиск максимумов в каналах.
+    // перевод изображения к полутоновому.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
-            b = img.at<Vec3b>(i, j)[0] > b ? img.at<Vec3b>(i, j)[0]: b;
-            g = img.at<Vec3b>(i, j)[1] > g ? img.at<Vec3b>(i, j)[1]: g;
-            r = img.at<Vec3b>(i, j)[2] > r ? img.at<Vec3b>(i, j)[2]: r;
+            auto buf = img.at<Vec3b>(i, j);
+            int m = (buf[0] + buf[1] + buf[2])/3;
+            img.at<Vec3b>(i, j)[0] = m;
+            img.at<Vec3b>(i, j)[1] = m;
+            img.at<Vec3b>(i, j)[2] = m;
         }
     }
-    int midMax = (r + g + b)/3; // среднее максимумов.
-    // Преобразование.
-    for (int i = 0; i < img.rows; i++) {
-        for (int j = 0; j < img.cols; j++) {
-            img.at<Vec3b>(i, j)[0] = img.at<Vec3b>(i, j)[0]/b * midMax;
-            max = img.at<Vec3b>(i, j)[0] > max ? img.at<Vec3b>(i, j)[0]: max;
-            img.at<Vec3b>(i, j)[1] = img.at<Vec3b>(i, j)[1]/g * midMax;
-            max = img.at<Vec3b>(i, j)[1] > max ? img.at<Vec3b>(i, j)[1]: max;
-            img.at<Vec3b>(i, j)[2] = img.at<Vec3b>(i, j)[2]/r * midMax;
-            max = img.at<Vec3b>(i, j)[2] > max ? img.at<Vec3b>(i, j)[2]: max;
-        }
-    }
+    imshow("semitone", img);
+    waitKey();
+    // построение гистограммы.
+    vector<Mat> vec;
+    vec =  split(img, bHist);
+    Mat bHist;
+    int histSyse = 256;
+    float range = {0, 255};
+    float* ranges[] = {range};
+    calcHist(*vec[0], 1, 0, Mat(), bHist, 1, &histSyse, ranges);
     // масштабирование.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
