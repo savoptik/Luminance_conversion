@@ -34,21 +34,21 @@ int main(int argc, const char * argv[]) {
     waitKey();
     // построение гистограммы.
     vector<Mat> vec;
-    vec =  split(img, bHist);
+    split(vec, img);
     Mat bHist;
     int histSyse = 256;
-    float range = {0, 255};
-    float* ranges[] = {range};
-    calcHist(*vec[0], 1, 0, Mat(), bHist, 1, &histSyse, ranges);
+    float range[] = {0, 255};
+    const float *ranges[] = {range};
+    calcHist(&vec[0], 1, 0, Mat(), bHist, 1, &histSyse, ranges);
     // масштабирование.
-    for (int i = 0; i < img.rows; i++) {
+/*    for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
-            img.at<Vec3b>(i, j)[0] = buf[0]/max * 255;
-            img.at<Vec3b>(i, j)[1] = buf[1]/max * 255;
-            img.at<Vec3b>(i, j)[2] = buf[2]/max * 255;
+            img.at<Vec3b>(i, j)[0] = buf[0] * 255  / max;
+            img.at<Vec3b>(i, j)[1] = buf[1] * 255 / max;
+            img.at<Vec3b>(i, j)[2] = buf[2] * 255  / max;
         }
-    }
+    } */
     imshow("result", img); // вывод преобразованного изображения.
     waitKey(); // ожидание нажатия клавиши.
     destroyAllWindows(); // уничтожение всех окон.
