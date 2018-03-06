@@ -17,7 +17,7 @@ using namespace cv;
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg"); // загрузка изображения.
+    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/апельсин.png"); // загрузка изображения.
     imshow("test", img); // вывод загруженного изображения для контроля.
     waitKey(); // ожидание нажатия клавиши.
     // перевод изображения к полутоновому.
@@ -34,7 +34,7 @@ int main(int argc, const char * argv[]) {
     waitKey();
     // построение гистограммы.
     vector<Mat> vec; // вектор для разделения изображения.
-    split(vec, img); // разделения изображения на 3 вектора.
+    split(img, vec); // разделения изображения на 3 вектора.
     Mat bHist; // матрица для гистограммы синего цвета.
     int histSyse = 256; // количество столбиков гистограммы.
     float range[] = {0, 255}; // высота столбиков.
