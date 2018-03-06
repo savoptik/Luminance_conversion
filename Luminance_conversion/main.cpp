@@ -34,21 +34,42 @@ int main(int argc, const char * argv[]) {
     waitKey();
     // построение гистограммы.
     vector<Mat> vec; // вектор для разделения изображения.
-    split(img, vec); // разделения изображения на 3 вектора.
+    split(img, vec); // разделения изображения на 3 матрицы.
     Mat bHist; // матрица для гистограммы синего цвета.
     int histSyse = 256; // количество столбиков гистограммы.
-    float range[] = {0, 255}; // высота столбиков.
+    float range[] = {0, 256}; // высота столбиков.
     const float *ranges[] = {range}; // высота столбиков ДЛЯ ОДНОЙ ГИСТОГРАММЫ
     calcHist(&vec[0], 1, 0, Mat(), bHist, 1, &histSyse, ranges); // построение гистограммы.
+    cout << "test 1 " << bHist.rows << endl;
+    for (int i = 0; i < bHist.rows; i++) {
+        bHist.at<float>(i) = bHist.at<float>(i) / (img.rows * img.cols);
+    }
+    cout << "test 2" << endl;
+    for (int i = 1; i < bHist.rows; i++) {
+        bHist.at<float>(i) = bHist.at<float>(i-1) + bHist.at<float>(i);
+    }
+    cout << "test 3" << endl;
+    int max = 0;
+    for (int i = 0; i < img.rows; i++) {
+        for (int j = 0; j < img.cols; j++) {
+            img.at<Vec3b>(i, j)[0] = round(bHist.at<float>(img.at<Vec3b>(i, j)[0] * 256));
+            max = img.at<Vec3b>(i, j)[0] > max? img.at<Vec3b>(i, j)[0]: max;
+            img.at<Vec3b>(i, j)[1] = round(bHist.at<float>(img.at<Vec3b>(i, j)[1] * 256));
+            max = img.at<Vec3b>(i, j)[1] > max? img.at<Vec3b>(i, j)[1]: max;
+            img.at<Vec3b>(i, j)[2] = round(bHist.at<float>(img.at<Vec3b>(i, j)[2] * 256));
+            max = img.at<Vec3b>(i, j)[2] > max? img.at<Vec3b>(i, j)[2]: max;
+        }
+    }
+    cout << "test 4" << endl;
     // масштабирование.
-/*    for (int i = 0; i < img.rows; i++) {
+    for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
             img.at<Vec3b>(i, j)[0] = buf[0] * 255  / max;
             img.at<Vec3b>(i, j)[1] = buf[1] * 255 / max;
             img.at<Vec3b>(i, j)[2] = buf[2] * 255  / max;
         }
-    } */
+    }
     imshow("result", img); // вывод преобразованного изображения.
     waitKey(); // ожидание нажатия клавиши.
     destroyAllWindows(); // уничтожение всех окон.
