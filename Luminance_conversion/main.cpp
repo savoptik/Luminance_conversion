@@ -11,53 +11,68 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
-#include <vector>
-#include <iterator>
 #include <cmath>
+#include <vector>
 using namespace cv;
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg");
-    imshow("test", img);
-    waitKey();
-    int r = 0; // максимум красных.
-    int g = 0; // максимум зелёных.
-    int b = 0; // максимум синих.
-    int max = 0; // максимум.
-    // Поиск максимумов в каналах.
+    auto img = imread("/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/апельсин.png"); // загрузка изображения.
+    imshow("test", img); // вывод загруженного изображения для контроля.
+    waitKey(); // ожидание нажатия клавиши.
+    // перевод изображения к полутоновому.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
-            b = img.at<Vec3b>(i, j)[0] > b ? img.at<Vec3b>(i, j)[0]: b;
-            g = img.at<Vec3b>(i, j)[1] > g ? img.at<Vec3b>(i, j)[1]: g;
-            r = img.at<Vec3b>(i, j)[2] > r ? img.at<Vec3b>(i, j)[2]: r;
+            auto buf = img.at<Vec3b>(i, j);
+            int m = (buf[0] + buf[1] + buf[2])/3;
+            img.at<Vec3b>(i, j)[0] = m;
+            img.at<Vec3b>(i, j)[1] = m;
+            img.at<Vec3b>(i, j)[2] = m;
         }
     }
-    int midMax = (r + g + b)/3; // среднее максимумов.
-    // Преобразование.
+    imshow("semitone", img);
+    waitKey();
+    // построение гистограммы.
+    vector<Mat> vec; // вектор для разделения изображения.
+    split(img, vec); // разделения изображения на 3 матрицы.
+    Mat bHist; // матрица для гистограммы синего цвета.
+    int histSyse = 256; // количество столбиков гистограммы.
+    float range[] = {0, 256}; // высота столбиков.
+    const float *ranges[] = {range}; // высота столбиков ДЛЯ ОДНОЙ ГИСТОГРАММЫ
+    calcHist(&vec[0], 1, 0, Mat(), bHist, 1, &histSyse, ranges); // построение гистограммы.
+    // нормализация гистограммы.
+    for (int i = 0; i < bHist.rows; i++) {
+        bHist.at<float>(i) = bHist.at<float>(i) / (img.rows * img.cols);
+    }
+    // построение гистограммы с накоплением.
+    for (int i = 1; i < bHist.rows; i++) {
+        bHist.at<float>(i) = bHist.at<float>(i-1) + bHist.at<float>(i);
+    }
+    // равномерное распределение значений.
+    int max = 0;
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
-            img.at<Vec3b>(i, j)[0] = img.at<Vec3b>(i, j)[0]/b * midMax;
-            max = img.at<Vec3b>(i, j)[0] > max ? img.at<Vec3b>(i, j)[0]: max;
-            img.at<Vec3b>(i, j)[1] = img.at<Vec3b>(i, j)[1]/g * midMax;
-            max = img.at<Vec3b>(i, j)[1] > max ? img.at<Vec3b>(i, j)[1]: max;
-            img.at<Vec3b>(i, j)[2] = img.at<Vec3b>(i, j)[2]/r * midMax;
-            max = img.at<Vec3b>(i, j)[2] > max ? img.at<Vec3b>(i, j)[2]: max;
+            img.at<Vec3b>(i, j)[0] = round(bHist.at<float>(img.at<Vec3b>(i, j)[0] * 256));
+            max = img.at<Vec3b>(i, j)[0] > max? img.at<Vec3b>(i, j)[0]: max; // поиск максимума для мосштабирования.
+            img.at<Vec3b>(i, j)[1] = round(bHist.at<float>(img.at<Vec3b>(i, j)[1] * 256));
+            max = img.at<Vec3b>(i, j)[1] > max? img.at<Vec3b>(i, j)[1]: max;
+            img.at<Vec3b>(i, j)[2] = round(bHist.at<float>(img.at<Vec3b>(i, j)[2] * 256));
+            max = img.at<Vec3b>(i, j)[2] > max? img.at<Vec3b>(i, j)[2]: max;
         }
     }
     // масштабирование.
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
             auto buf = img.at<Vec3b>(i, j);
-            img.at<Vec3b>(i, j)[0] = buf[0]/max * 255;
-            img.at<Vec3b>(i, j)[1] = buf[1]/max * 255;
-            img.at<Vec3b>(i, j)[2] = buf[2]/max * 255;
+            img.at<Vec3b>(i, j)[0] = buf[0] * 255  / max;
+            img.at<Vec3b>(i, j)[1] = buf[1] * 255 / max;
+            img.at<Vec3b>(i, j)[2] = buf[2] * 255  / max;
         }
     }
-    imshow("result", img);
-    waitKey();
-    destroyAllWindows();
-    imwrite("/Users/artemsemenov/Desktop/result.jpg", img);
-    img.deallocate();
+    imshow("result", img); // вывод преобразованного изображения.
+    waitKey(); // ожидание нажатия клавиши.
+    destroyAllWindows(); // уничтожение всех окон.
+    imwrite("/Users/artemsemenov/Desktop/result.jpg", img); // запись на диск.
+    img.deallocate(); // освобождение памяти.
     return 0;
 }
