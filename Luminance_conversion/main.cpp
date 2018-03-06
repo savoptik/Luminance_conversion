@@ -33,13 +33,13 @@ int main(int argc, const char * argv[]) {
     imshow("semitone", img);
     waitKey();
     // построение гистограммы.
-    vector<Mat> vec;
-    split(vec, img);
-    Mat bHist;
-    int histSyse = 256;
-    float range[] = {0, 255};
-    const float *ranges[] = {range};
-    calcHist(&vec[0], 1, 0, Mat(), bHist, 1, &histSyse, ranges);
+    vector<Mat> vec; // вектор для разделения изображения.
+    split(vec, img); // разделения изображения на 3 вектора.
+    Mat bHist; // матрица для гистограммы синего цвета.
+    int histSyse = 256; // количество столбиков гистограммы.
+    float range[] = {0, 255}; // высота столбиков.
+    const float *ranges[] = {range}; // высота столбиков ДЛЯ ОДНОЙ ГИСТОГРАММЫ
+    calcHist(&vec[0], 1, 0, Mat(), bHist, 1, &histSyse, ranges); // построение гистограммы.
     // масштабирование.
 /*    for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
