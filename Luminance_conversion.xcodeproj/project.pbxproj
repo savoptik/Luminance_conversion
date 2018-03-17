@@ -51,6 +51,7 @@
 		FE0BC51A203308D400505B36 /* libopencv_surface_matching.3.4.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0BC4F0203308D300505B36 /* libopencv_surface_matching.3.4.0.dylib */; };
 		FE3CB6C0205C5F7A00620FB4 /* conversionOfLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE3CB6BE205C5F7A00620FB4 /* conversionOfLog.cpp */; };
 		FE3CB6C4205C610D00620FB4 /* luminanceConversion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE3CB6C2205C610D00620FB4 /* luminanceConversion.cpp */; };
+		FECC81A0205D48F50073C6C9 /* histogramEqualization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FECC819E205D48F50073C6C9 /* histogramEqualization.cpp */; };
 		FED0C0D5205D36A600D6B5CB /* grayWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FED0C0D3205D36A600D6B5CB /* grayWorld.cpp */; };
 		FED799382033081F0065AC30 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FED799372033081F0065AC30 /* main.cpp */; };
 /* End PBXBuildFile section */
@@ -114,6 +115,8 @@
 		FE3CB6BF205C5F7A00620FB4 /* conversionOfLog.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = conversionOfLog.hpp; sourceTree = "<group>"; };
 		FE3CB6C2205C610D00620FB4 /* luminanceConversion.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = luminanceConversion.cpp; sourceTree = "<group>"; };
 		FE3CB6C3205C610D00620FB4 /* luminanceConversion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = luminanceConversion.hpp; sourceTree = "<group>"; };
+		FECC819E205D48F50073C6C9 /* histogramEqualization.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = histogramEqualization.cpp; sourceTree = "<group>"; };
+		FECC819F205D48F50073C6C9 /* histogramEqualization.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = histogramEqualization.hpp; sourceTree = "<group>"; };
 		FED0C0D3205D36A600D6B5CB /* grayWorld.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = grayWorld.cpp; sourceTree = "<group>"; };
 		FED0C0D4205D36A600D6B5CB /* grayWorld.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = grayWorld.hpp; sourceTree = "<group>"; };
 		FED799342033081F0065AC30 /* Luminance_conversion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Luminance_conversion; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,6 +243,15 @@
 			path = luminanceConversion;
 			sourceTree = "<group>";
 		};
+		FECC819D205D48C30073C6C9 /* histogramEqualization */ = {
+			isa = PBXGroup;
+			children = (
+				FECC819E205D48F50073C6C9 /* histogramEqualization.cpp */,
+				FECC819F205D48F50073C6C9 /* histogramEqualization.hpp */,
+			);
+			path = histogramEqualization;
+			sourceTree = "<group>";
+		};
 		FED0C0D2205D367D00D6B5CB /* grayWorld */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				FED799372033081F0065AC30 /* main.cpp */,
+				FECC819D205D48C30073C6C9 /* histogramEqualization */,
 				FED0C0D2205D367D00D6B5CB /* grayWorld */,
 				FE3CB6C1205C60DE00620FB4 /* luminanceConversion */,
 				FE3CB6BD205C5F2F00620FB4 /* conversionOfLog */,
@@ -335,6 +348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE3CB6C4205C610D00620FB4 /* luminanceConversion.cpp in Sources */,
+				FECC81A0205D48F50073C6C9 /* histogramEqualization.cpp in Sources */,
 				FED0C0D5205D36A600D6B5CB /* grayWorld.cpp in Sources */,
 				FED799382033081F0065AC30 /* main.cpp in Sources */,
 				FE3CB6C0205C5F7A00620FB4 /* conversionOfLog.cpp in Sources */,
