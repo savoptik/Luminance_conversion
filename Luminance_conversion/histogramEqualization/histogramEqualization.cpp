@@ -35,7 +35,13 @@ histogramEqualization::~histogramEqualization() {
 }
 
 histogramEqualization::histogramEqualization(std::string filePaah) { 
-    <#code#>;
+    image = imread(filePaah); // загрузка изображения.
+    conversionToGray();// приведение изображения к полутоновому.
+    plottingHistogram(); // построение гистограммы.
+    normalizationHistogram(); // нормализация гистограммы.
+    buildingStackedHistogram(); // построение гистограммы с накоплением.
+    uniformDistributionValues(); // равномерное распределение значений.
+    scalingChanges(); // масштабирование.
 }
 
 void histogramEqualization::uniformDistributionValues() { 
