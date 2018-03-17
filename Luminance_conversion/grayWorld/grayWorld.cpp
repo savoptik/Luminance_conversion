@@ -13,13 +13,21 @@
 using namespace cv;
 
 void grayWorld::showCurrantStat() { 
-    <#code#>;
+    imshow("Gray world", image); // вывод изображения.
+    waitKey(); // ожидание нажатия клавиши.
+    destroyWindow("Gray world"); // уничтожение окна.
 }
 
 grayWorld::~grayWorld() { 
-    <#code#>;
+    image.deallocate(); // освобождение памяти.
 }
 
 grayWorld::grayWorld(std::string filePash) { 
+    image = imread(filePash); // загрузка изображения.
+    conversiontoGrayWorld(); // преобразование к серому миру.
+}
+
+void grayWorld::conversiontoGrayWorld() { 
     <#code#>;
 }
+
