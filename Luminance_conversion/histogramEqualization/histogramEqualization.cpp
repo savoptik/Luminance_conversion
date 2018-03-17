@@ -21,7 +21,12 @@ void histogramEqualization::normalizationHistogram() {
 }
 
 void histogramEqualization::plottingHistogram() { 
-    <#code#>;
+    vector<Mat> vec; // вектор для разделения изображения.
+    split(image, vec); // разделения изображения на 3 матрицы.
+    int histSyse = 256; // количество столбиков гистограммы.
+    float range[] = {0, 256}; // высота столбиков.
+    const float *ranges[] = {range}; // высота столбиков ДЛЯ ОДНОЙ ГИСТОГРАММЫ
+    calcHist(&vec[0], 1, 0, Mat(), bHist, 1, &histSyse, ranges); // построение гистограммы.
 }
 
 void histogramEqualization::showCurrantStat() { 
