@@ -25,11 +25,13 @@ void histogramEqualization::plottingHistogram() {
 }
 
 void histogramEqualization::showCurrantStat() { 
-    <#code#>;
+    imshow("Histogram equalization", image); // вывод изображения.
+    waitKey(); // ожидание нажатия клавиши.
+    destroyWindow("Histogram equalization"); // уничтожение окна.
 }
 
 histogramEqualization::~histogramEqualization() { 
-    <#code#>;
+    image.deallocate(); // Освобождение памяти.
 }
 
 histogramEqualization::histogramEqualization(std::string filePaah) { 
