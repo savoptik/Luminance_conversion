@@ -8,11 +8,15 @@
 
 #include <iostream>
 #include <string>
-
+#include <conversionOfLog.hpp>
 #include "grayWorld.hpp"
 using namespace std;
 
 int main(int argc, const char * argv[]) {
+    // преобразование на основе формулы.
+    string filePash = "/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/imac.jpg";
+    conversionOfLog col(filePash); // создание объекта.
+    col.showCurrantStat(); // вывод результата.
     // преобразование Серый мир.
     string GWFilePash = "/Users/artemsemenov/Documents/projects/xcode/Luminance_conversion/Luminance_conversion/Мать_родина.png"; // путь к тестовому изображению.
     grayWorld GW(GWFilePash); // запуск конструктора класса.
