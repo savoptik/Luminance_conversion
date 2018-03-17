@@ -23,7 +23,7 @@ private:
     void plottingHistogram(); // построение гистограммы.
     void normalizationHistogram(); // нормализация гистограммы.
     void buildingStackedHistogram(); // построение гистограммы с накоплением.
-    void uniformDistributionValues.(); // ровномерное распределение значений.
+    void uniformDistributionValues(); // ровномерное распределение значений.
 };
 
 #endif /* histogramEqualization_hpp */

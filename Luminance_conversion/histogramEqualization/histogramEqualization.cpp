@@ -7,3 +7,36 @@
 //
 
 #include "histogramEqualization.hpp"
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgcodecs.hpp>
+using namespace cv;
+
+void histogramEqualization::buildingStackedHistogram() { 
+    <#code#>;
+}
+
+void histogramEqualization::normalizationHistogram() { 
+    <#code#>;
+}
+
+void histogramEqualization::plottingHistogram() { 
+    <#code#>;
+}
+
+void histogramEqualization::showCurrantStat() { 
+    <#code#>;
+}
+
+histogramEqualization::~histogramEqualization() { 
+    <#code#>;
+}
+
+histogramEqualization::histogramEqualization(std::string filePaah) { 
+    <#code#>;
+}
+
+void histogramEqualization::uniformDistributionValues() { 
+    <#code#>;
+}
+
