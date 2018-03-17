@@ -28,6 +28,34 @@ grayWorld::grayWorld(std::string filePash) {
 }
 
 void grayWorld::conversiontoGrayWorld() { 
-    <#code#>;
+    int r = 0; // максимум красных.
+    int g = 0; // максимум зелёных.
+    int b = 0; // максимум синих.
+    int max = 0; // максимум.
+    int colp = img.rows * img.cols;
+    // Поиск максимумов в каналах.
+    for (int i = 0; i < img.rows; i++) {
+        for (int j = 0; j < img.cols; j++) {
+            b += img.at<Vec3b>(i, j)[0];
+            g += img.at<Vec3b>(i, j)[1];
+            r += img.at<Vec3b>(i, j)[2];
+        }
+    }
+    b = b /colp;
+    g = g / colp;
+    r = r / colp;
+    int midMax = (r + g + b)/3; // среднее максимумов.
+    // Преобразование.
+    for (int i = 0; i < img.rows; i++) {
+        for (int j = 0; j < img.cols; j++) {
+            auto buf = img.at<Vec3b>(i, j);
+            img.at<Vec3b>(i, j)[0] = buf[0] * midMax / b; // преобразование канала.
+            max = img.at<Vec3b>(i, j)[0] > max ? img.at<Vec3b>(i, j)[0]: max; // поиск максимума.
+            img.at<Vec3b>(i, j)[1] = buf[1] * midMax / g;
+            max = img.at<Vec3b>(i, j)[1] > max ? img.at<Vec3b>(i, j)[1]: max;
+            img.at<Vec3b>(i, j)[2] = buf[2] * midMax / r;
+            max = img.at<Vec3b>(i, j)[2] > max ? img.at<Vec3b>(i, j)[2]: max;
+        }
+    }
 }
 
