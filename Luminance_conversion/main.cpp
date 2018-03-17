@@ -23,16 +23,8 @@ int main(int argc, const char * argv[]) {
     GW.showCurrantStat(); // вывод результата.
 
     // построение гистограммы.
-    vector<Mat> vec; // вектор для разделения изображения.
-    split(img, vec); // разделения изображения на 3 матрицы.
-    int histSyse = 256; // количество столбиков гистограммы.
-    float range[] = {0, 256}; // высота столбиков.
-    const float *ranges[] = {range}; // высота столбиков ДЛЯ ОДНОЙ ГИСТОГРАММЫ
-    calcHist(&vec[0], 1, 0, Mat(), bHist, 1, &histSyse, ranges); // построение гистограммы.
+
     // нормализация гистограммы.
-    for (int i = 0; i < bHist.rows; i++) {
-        bHist.at<float>(i) = bHist.at<float>(i) / (img.rows * img.cols);
-    }
     // построение гистограммы с накоплением.
     for (int i = 1; i < bHist.rows; i++) {
         bHist.at<float>(i) = bHist.at<float>(i-1) + bHist.at<float>(i);

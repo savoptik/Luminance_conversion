@@ -17,7 +17,9 @@ void histogramEqualization::buildingStackedHistogram() {
 }
 
 void histogramEqualization::normalizationHistogram() { 
-    <#code#>;
+    for (int i = 0; i < bHist.rows; i++) {
+        bHist.at<float>(i) = bHist.at<float>(i) / (img.rows * img.cols);
+    }
 }
 
 void histogramEqualization::plottingHistogram() { 
